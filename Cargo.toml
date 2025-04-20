@@ -5,3 +5,7 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.37", features = ["derive"] }
+log = "0.4.27"
+rand = { version = "0.9.1", features = ["nightly", "log", "serde", "simd_support"] }
+reqwest = "0.12.15"
+rusqlite = "0.35.0"
