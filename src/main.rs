@@ -1,13 +1,7 @@
 extern crate clap;
-extern crate rusqlite;
-extern crate reqwest;
 extern crate log;
-
-use clap::{App, Arg};
-use rusqlite::Connection;
-use reqwest::Client;
-use std::fs::File;
-use std::io::{self, Read};
+extern crate reqwest;
+extern crate rusqlite;
 
 const PROGRAM_NAME: &str = "irontide";
 const PACKAGE: &str = "irontide";
@@ -152,123 +146,7 @@ pub struct CliArgs {
 }
 
 fn main() {
-    let matches = App::new(PROGRAM_NAME)
-        .version(utils::program_version())
-        .author("Alexander Batischev")
-        .about("A simple RSS reader")
-        .arg(
-            Arg::with_name("import-from-opml")
-                .short('i')
-                .long("import-from-opml")
-                .value_name("FILE")
-                .help("Import OPML file"),
-        )
-        .arg(
-            Arg::with_name("url-file")
-                .short('u')
-                .long("url-file")
-                .value_name("FILE")
-                .help("Read RSS feed URLs from FILE"),
-        )
-        .arg(
-            Arg::with_name("cache-file")
-                .short('c')
-                .long("cache-file")
-                .value_name("FILE")
-                .help("Use FILE as cache file"),
-        )
-        .arg(
-            Arg::with_name("config-file")
-                .short('C')
-                .long("config-file")
-                .value_name("FILE")
-                .help("Read configuration from FILE"),
-        )
-        .arg(
-            Arg::with_name("queue-file")
-                .long("queue-file")
-                .value_name("FILE")
-                .help("Use FILE as podcast queue file"),
-        )
-        .arg(
-            Arg::with_name("search-history-file")
-                .long("search-history-file")
-                .value_name("FILE")
-                .help("Save the input history of the search to FILE"),
-        )
-        .arg(
-            Arg::with_name("cmdline-history-file")
-                .long("cmdline-history-file")
-                .value_name("FILE")
-                .help("Save the input history of the command line to FILE"),
-        )
-        .arg(
-            Arg::with_name("vacuum")
-                .short('X')
-                .long("vacuum")
-                .help("Compact the cache"),
-        )
-        .arg(
-            Arg::with_name("execute")
-                .short('x')
-                .long("execute")
-                .value_name("COMMANDS...")
-                .multiple(true)
-                .help("Execute list of commands"),
-        )
-        .arg(
-            Arg::with_name("quiet")
-                .short('q')
-                .long("quiet")
-                .help("Quiet startup"),
-        )
-        .arg(
-            Arg::with_name("version")
-                .short('v')
-                .long("version")
-                .help("Get version information"),
-        )
-        .arg(
-            Arg::with_name("log-level")
-                .short('l')
-                .long("log-level")
-                .value_name("LOGLEVEL")
-                .takes_value(true)
-                .help("Write a log with a certain log level (1 to 6 for user error, critical, error, warning, info, and debug respectively)"),
-        )
-        .arg(
-            Arg::with_name("log-file")
-                .short('d')
-                .long("log-file")
-                .value_name("FILE")
-                .help("Use FILE as output log file"),
-        )
-        .arg(
-            Arg::with_name("export-to-file")
-                .short('E')
-                .long("export-to-file")
-                .value_name("FILE")
-                .help("Export list of read articles to FILE"),
-        )
-        .arg(
-            Arg::with_name("import-from-file")
-                .short('I')
-                .long("import-from-file")
-                .value_name("FILE")
-                .help("Import list of read articles from FILE"),
-        )
-        .arg(
-            Arg::with_name("help")
-                .short('h')
-                .long("help")
-                .help("This help"),
-        )
-        .arg(
-            Arg::with_name("cleanup")
-                .long("cleanup")
-                .help("Remove unreferenced items from cache"),
-        )
-        .get_matches();
+    let matches = CliArgs::parse();
 
     let configpaths = ConfigPaths::new();
     if !configpaths.initialized() {
@@ -356,26 +234,6 @@ impl ConfigPaths {
     fn process_args(&self, _args: CliArgsParser) {}
 }
 
-struct Controller;
-impl Controller {
-    fn new(_configpaths: ConfigPaths) -> Self {
-        Controller
-    }
-    fn set_view(&mut self, _v: &View) {}
-    fn run(&self, _args: CliArgsParser) -> i32 {
-        0
-    }
-}
-
-struct View;
-impl View;
-
-// Dummy implementation for missing structs and functions
-struct CliArgsParser;
-struct Stfl;
-fn strprintf::fmt(_format: &str, _values: ...) -> String {
-    String::new()
-}
 fn print_version(_program_name: &str, _level: u32) {}
 
 const PROGRAM_NAME: &str = "irontide";
@@ -395,7 +253,9 @@ extern "C" {
     fn sqlite3_libversion() -> *const libc::c_char;
 }
 
-use std::ffi::CString;
+use std::{ffi::CString, path::PathBuf};
+
+use clap::Parser;
 
 fn main() {
     unsafe {
@@ -470,25 +330,3 @@ impl ConfigPaths {
         "cmdline_history.txt"
     }
 }
-
-struct CliArgsParser;
-impl CliArgsParser {
-    fn program_name(&self) -> &str {
-        "irontide"
-    }
-    fn should_print_usage(&self) -> bool {
-        false
-    }
-    fn return_code(&self) -> Option<i32> {
-        None
-    }
-    fn show_version(&self) -> u32 {
-        0
-    }
-}
-
-struct View;
-
-// Dummy implementation for missing structs and functions
-const PACKAGE: &str = "irontide";
-const LOCALEDIR: &str = "/usr/share/locale";
