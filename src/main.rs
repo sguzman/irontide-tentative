@@ -1,16 +1,9 @@
 use env_logger::{Builder, Env};
 use std::fmt::Write;
 
-extern crate clap;
-extern crate log;
-extern crate reqwest;
-extern crate rusqlite;
-
 use colored::Colorize;
 
 const PROGRAM_NAME: &str = "irontide";
-const PACKAGE: &str = "irontide";
-const LOCALEDIR: &str = "/usr/share/locale";
 
 fn setup_logging() {
     Builder::from_env(Env::default().default_filter_or("info"))
