@@ -1,5 +1,4 @@
 use env_logger::{Builder, Env};
-use std::fmt::Write;
 
 use colored::Colorize;
 
