@@ -1,4 +1,5 @@
 use env_logger::{Builder, Env};
+use std::fmt::Write;
 
 extern crate clap;
 extern crate log;
@@ -25,15 +26,33 @@ fn setup_logging() {
                 log::Level::Trace => "TRACE".cyan(),
             };
             let message = record.args();
-            write!(buf, "{} [{}] {}", timestamp, level, message)
+            write!(buf, "{} [{}] {}\n", timestamp, level, message).unwrap()
         })
         .init();
 
-    log::info!("{} started", PROGRAM_NAME);
+    log::info!("{}: Hello world", PROGRAM_NAME);
+}
+
+fn atexit() {
+    // At exit, print a message
+    static mut EXIT_MESSAGE: Option<String> = None;
+    unsafe {
+        EXIT_MESSAGE = Some(format!("{} stopped", PROGRAM_NAME));
+        libc::atexit(exit_handler);
+    }
+
+    extern "C" fn exit_handler() {
+        unsafe {
+            if let Some(ref message) = EXIT_MESSAGE {
+                log::info!("{}", message);
+            }
+        }
+    }
 }
 
 fn init() {
     setup_logging();
+    atexit();
 }
 
 fn main() {
