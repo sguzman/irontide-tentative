@@ -26,7 +26,10 @@ fn setup_logging() {
                 log::Level::Trace => "TRACE".cyan(),
             };
             let message = record.args();
-            write!(buf, "{} [{}] {}\n", timestamp, level, message).unwrap()
+            Ok(println!(
+                "{} [{}] {}: {:#?}",
+                timestamp, level, message, buf
+            ))
         })
         .init();
 
