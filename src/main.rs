@@ -1,7 +1,11 @@
+use env_logger::{Builder, Env};
+
 extern crate clap;
 extern crate log;
 extern crate reqwest;
 extern crate rusqlite;
+
+use colored::Colorize;
 
 const PROGRAM_NAME: &str = "irontide";
 const PACKAGE: &str = "irontide";
@@ -24,10 +28,15 @@ fn setup_logging() {
             write!(buf, "{} [{}] {}", timestamp, level, message)
         })
         .init();
+
+    log::info!("{} started", PROGRAM_NAME);
+}
+
+fn init() {
+    setup_logging();
 }
 
 fn main() {
-    let matches = CliArgs::parse();
-
-    std::process::exit(ret);
+    init();
+    std::process::exit(0);
 }
