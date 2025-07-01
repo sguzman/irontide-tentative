@@ -1,7 +1,16 @@
 // CLI arguments struct, derived from C++ options in newsboat.cpp
+use clap::Parser;
+use std::path::PathBuf;
+
 #[derive(Debug, Parser, Clone, PartialEq, Eq)]
 #[clap(author = "Salvador Guzman")]
-#[clap(name = "irontide", version = "0.1.0", about = "Rust port of Newsboat")]
+#[clap(
+    name = "irontide",
+    version = "0.1.0",
+    about = "Rust port of Newsboat",
+    disable_version_flag = true,
+    disable_help_flag = true
+)]
 pub struct CliArgs {
     #[clap(
         short = 'e',
@@ -97,6 +106,7 @@ pub struct CliArgs {
         short = 'l',
         long = "log-level",
         value_name = "loglevel",
+        value_parser = clap::value_parser!(u8).range(1..=6),
         help = "write a log with given log level (1-6)"
     )]
     pub log_level: Option<u8>,
