@@ -1,4 +1,7 @@
 // CLI arguments struct, derived from C++ options in newsboat.cpp
+use clap::Parser;
+use std::path::PathBuf;
+
 #[derive(Debug, Parser, Clone, PartialEq, Eq)]
 #[clap(author = "Salvador Guzman")]
 #[clap(name = "irontide", version = "0.1.0", about = "Rust port of Newsboat")]
