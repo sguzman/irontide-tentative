@@ -1,11 +1,8 @@
-use env_logger::{Builder, Env};
-use colored::Colorize;
 use clap::Parser;
+use colored::Colorize;
+use env_logger::{Builder, Env};
+use irontide::local::cli::args::CliArgs;
 use std::path::Path;
-
-mod rss;
-mod local;
-use local::cli::args::CliArgs;
 
 const PROGRAM_NAME: &str = "irontide";
 
@@ -60,7 +57,7 @@ fn main() {
     let args = CliArgs::parse();
 
     if let Some(url_file) = args.url_file.as_ref() {
-        if let Err(e) = rss::process_urls_file(Path::new(url_file)) {
+        if let Err(e) = irontide::rss::process_urls_file(Path::new(url_file)) {
             eprintln!("Error processing URLs file: {e}");
         }
     }

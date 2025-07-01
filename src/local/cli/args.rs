@@ -4,7 +4,13 @@ use std::path::PathBuf;
 
 #[derive(Debug, Parser, Clone, PartialEq, Eq)]
 #[clap(author = "Salvador Guzman")]
-#[clap(name = "irontide", version = "0.1.0", about = "Rust port of Newsboat")]
+#[clap(
+    name = "irontide",
+    version = "0.1.0",
+    about = "Rust port of Newsboat",
+    disable_version_flag = true,
+    disable_help_flag = true
+)]
 pub struct CliArgs {
     #[clap(
         short = 'e',

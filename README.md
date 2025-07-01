@@ -22,6 +22,14 @@ irontide --url-file urls.txt
 
 Each non-empty, non-comment line in `urls.txt` should contain a valid feed URL.
 
+## Running tests
+
+Basic unit tests verify the command-line interface. Run them with:
+
+```bash
+cargo test
+```
+
 ## License
 
 The code is released under the terms of the CC0 license. See the [LICENSE](LICENSE) file for details.
