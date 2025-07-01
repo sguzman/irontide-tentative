@@ -12,6 +12,16 @@ cargo build
 
 The project is still in a very early stage but should compile with the stable Rust toolchain.
 
+## Usage
+
+Irontide can read a list of feed URLs from a file and print their titles:
+
+```bash
+irontide --url-file urls.txt
+```
+
+Each non-empty, non-comment line in `urls.txt` should contain a valid feed URL.
+
 ## License
 
 The code is released under the terms of the CC0 license. See the [LICENSE](LICENSE) file for details.
